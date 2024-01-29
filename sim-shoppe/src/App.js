@@ -1,16 +1,22 @@
 import Product from "./components/product/Product"
 import Header from "./components/layout/Header"
 import Navbar from "./components/layout/Navbar"
-// import { useState } from "react"
-
+import NotFound from "./components/utils/NotFound"
+import { Routes, Route } from "react-router-dom";
 
 const App = () => {  
   return (
-    <div>
+    <>
       <Header/>
       <Navbar/>
-      <Product/>
-    </div>
+      <Routes>
+        <Route path="/404" element={ <NotFound/> }/>
+        <Route path ="/:category?" element={ <Product/> } />
+        <Route component={NotFound} />
+        {/* <Navigate to="/404" /> */}
+      </Routes>
+    </>
+  
   )
 }
 export default App;
