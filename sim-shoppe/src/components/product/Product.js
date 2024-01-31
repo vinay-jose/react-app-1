@@ -1,14 +1,15 @@
 import ListItem from "./list_items/ListItems";
 import Loader from "../UI/Loader";
 import { useState, useEffect } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
+import NotFound from "../utils/NotFound";
 
 const Product = () => {
     
     const [items, setItems] = useState([]);
     const [loader, setLoader] = useState(true);
     const params = useParams();
-    const navigate = useNavigate();
+    // const navigate = useNavigate();
 
     useEffect(() => {
         fetch('https://dummyjson.com/products/')
@@ -18,9 +19,9 @@ const Product = () => {
             if (params.category) {
                 products = products.filter(product => params.category === product.category);
                 console.log(products);
-                if (!products.length){
-                    navigate("/404");
-                }
+                // if (!products.length){
+                //     navigate("/404");
+                // }
             }
             setItems(products);
             setLoader(false);
@@ -34,21 +35,26 @@ const Product = () => {
             setLoader(true);
         }
         
-    },[params, navigate]);  
+    },[params.category]);  
                 
     return (
         <>
-        <div className={"product-list"}>
-            <div className="product-list--wrapper"> 
-                {
-                items.map(item => (<ListItem 
-                                        key = {item.id} 
-                                        data = {item}>
-                                    </ListItem>))
-                }       
-            </div>
-            { loader && <Loader/>}
-        </div>
+        {
+            items.length?
+                <div className={"product-list"}>
+                    <div className="product-list--wrapper"> 
+                        {
+                        items.map(item => (<ListItem 
+                                                key = {item.id} 
+                                                data = {item}>
+                                            </ListItem>))
+                        }       
+                    </div>
+                { loader && <Loader/>}
+                </div>
+                :
+                <NotFound/>
+        }
         </>
     );
 }
