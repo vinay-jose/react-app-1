@@ -19,9 +19,6 @@ const Product = () => {
             if (params.category) {
                 products = products.filter(product => params.category === product.category);
                 console.log(products);
-                // if (!products.length){
-                //     navigate("/404");
-                // }
             }
             setItems(products);
             setLoader(false);
